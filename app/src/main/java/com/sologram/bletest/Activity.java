@@ -27,7 +27,7 @@ public class Activity extends Role.Activity implements PopupMenu.Listener, View.
 	@Override
 	public void onClick(View v) {
 		try {
-			scanner = new Scanner(this).start();
+			scanner = new Scanner(this).start(null);
 			scanner.setListener(this);
 			menu = new PopupMenu(this, "Scan ...");
 			menu.setListener(this);
@@ -56,8 +56,10 @@ public class Activity extends Role.Activity implements PopupMenu.Listener, View.
 	@Override
 	public void onDismiss() {
 		Log.w(TAG, "onDismiss");
-		scanner.stop();
-		scanner = null;
+		if (scanner != null) {
+			scanner.stop();
+			scanner = null;
+		}
 		menu = null;
 	}
 

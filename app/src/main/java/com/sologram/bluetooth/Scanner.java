@@ -16,11 +16,9 @@ public class Scanner implements BluetoothAdapter.LeScanCallback {
 
 	private BluetoothAdapter adapter;
 	private Listener listener;
-	private Context context;
 
-	public Scanner(Role.Activity activity) throws NotReady {
-		context = activity;
-		adapter = Adapter.get(activity);
+	public Scanner(Context context) throws NotReady {
+		adapter = Adapter.get(context);
 		if (adapter == null || !adapter.isEnabled())
 			throw new NotReady();
 	}
@@ -73,9 +71,9 @@ public class Scanner implements BluetoothAdapter.LeScanCallback {
 		this.listener = listener;
 	}
 
-	public Scanner start() {
-		Log.w(TAG, "start...");
-		adapter.startLeScan(null, this);
+	public Scanner start(UUID[] services) {
+		Log.w(TAG, "start: " + services);
+		adapter.startLeScan(services, this);
 		return this;
 	}
 
