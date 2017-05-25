@@ -1,6 +1,7 @@
 package com.sologram.bletest;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
 import com.sologram.bluetooth.NotReady;
@@ -52,6 +53,7 @@ public class Activity extends Role.Activity implements PopupMenu.Listener, View.
 
 	@Override
 	public void onDismiss() {
+		Log.w(TAG, "onDismiss");
 		scanner.stop();
 		scanner = null;
 		menu = null;

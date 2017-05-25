@@ -1,9 +1,5 @@
 package com.sologram.bluetooth;
 
-/**
- * Created by hans on 2016/1/19.
- */
-
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.util.Log;
@@ -17,13 +13,13 @@ import java.util.UUID;
 public class Scanner implements BluetoothAdapter.LeScanCallback {
 	static private final String TAG = Scanner.class.getSimpleName();
 
-	private BluetoothAdapter adapterp;
+	private BluetoothAdapter adapter;
 	private Role.Activity handle;
 
 	public Scanner(Role.Activity activity) throws NotReady {
 		handle = activity;
-		adapterp = Adapter.get(activity);
-		if (adapterp == null || !adapterp.isEnabled())
+		adapter = Adapter.get(activity);
+		if (adapter == null || !adapter.isEnabled())
 			throw new NotReady();
 	}
 
@@ -80,12 +76,12 @@ public class Scanner implements BluetoothAdapter.LeScanCallback {
 
 	public Scanner start() {
 		Log.w(TAG, "start...");
-		adapterp.startLeScan(null, this);
+		adapter.startLeScan(null, this);
 		return this;
 	}
 
 	public void stop() {
 		Log.w(TAG, "stop");
-		adapterp.stopLeScan(this);
+		adapter.stopLeScan(this);
 	}
 }

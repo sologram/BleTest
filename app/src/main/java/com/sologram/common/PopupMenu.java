@@ -1,14 +1,12 @@
 package com.sologram.common;
 
 import android.content.Context;
-import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.RoundRectShape;
-import android.graphics.drawable.shapes.Shape;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -75,7 +73,6 @@ public class PopupMenu extends PopupWindow implements AdapterView.OnItemClickLis
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 		adapter.getItem(position);
 		listener.onItemClick(adapter.getKey(position), adapter.getText(position));
-		listener.onDismiss();
 		dismiss();
 	}
 
