@@ -49,7 +49,7 @@ public class PopupMenu extends PopupWindow implements AdapterView.OnItemClickLis
 		adapter.addItem(null, initText);
 
 		setContentView(layout);
-		setWidth(240);
+		setWidth(260);
 		setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
 		setBackgroundDrawable(new ColorDrawable());
 		setInputMethodMode(PopupWindow.INPUT_METHOD_NEEDED);

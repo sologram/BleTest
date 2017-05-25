@@ -2,6 +2,7 @@ package com.sologram.bluetooth;
 
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
+import android.content.Context;
 import android.util.Log;
 
 import java.nio.ByteBuffer;
@@ -14,10 +15,11 @@ public class Scanner implements BluetoothAdapter.LeScanCallback {
 	static private final String TAG = Scanner.class.getSimpleName();
 
 	private BluetoothAdapter adapter;
-	private Role.Activity handle;
+	private Listener listener;
+	private Context context;
 
 	public Scanner(Role.Activity activity) throws NotReady {
-		handle = activity;
+		context = activity;
 		adapter = Adapter.get(activity);
 		if (adapter == null || !adapter.isEnabled())
 			throw new NotReady();
@@ -26,15 +28,8 @@ public class Scanner implements BluetoothAdapter.LeScanCallback {
 	@Override
 	public void onLeScan(BluetoothDevice device, int rssi, byte[] scanRecord) {
 		Log.v(TAG, "Found: " + device);
-		final String a = device.getAddress();
-		final String n = device.getName();
-		final List<UUID> u = parseUuids(scanRecord);
-		handle.runOnUiThread(new Runnable() {
-			@Override
-			public void run() {
-				handle.onFound(a, n, u);
-			}
-		});
+		if (listener != null)
+			listener.onFound(device.getAddress(), device.getName(), parseUuids(scanRecord));
 	}
 
 	private List<UUID> parseUuids(byte[] advertisedData) {
@@ -74,6 +69,10 @@ public class Scanner implements BluetoothAdapter.LeScanCallback {
 		return re;
 	}
 
+	public void setListener(Listener listener) {
+		this.listener = listener;
+	}
+
 	public Scanner start() {
 		Log.w(TAG, "start...");
 		adapter.startLeScan(null, this);
@@ -83,5 +82,9 @@ public class Scanner implements BluetoothAdapter.LeScanCallback {
 	public void stop() {
 		Log.w(TAG, "stop");
 		adapter.stopLeScan(this);
+	}
+
+	public interface Listener {
+		void onFound(String address, String name, List<UUID> uuids);
 	}
 }

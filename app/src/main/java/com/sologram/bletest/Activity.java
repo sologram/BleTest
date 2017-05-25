@@ -12,7 +12,8 @@ import com.sologram.common.PopupMenu;
 import java.util.List;
 import java.util.UUID;
 
-public class Activity extends Role.Activity implements PopupMenu.Listener, View.OnClickListener {
+public class Activity extends Role.Activity implements PopupMenu.Listener, View.OnClickListener,
+		Scanner.Listener {
 	static private final String TAG = Activity.class.getSimpleName();
 
 	PopupMenu menu;
@@ -27,6 +28,7 @@ public class Activity extends Role.Activity implements PopupMenu.Listener, View.
 	public void onClick(View v) {
 		try {
 			scanner = new Scanner(this).start();
+			scanner.setListener(this);
 			menu = new PopupMenu(this, "Scan ...");
 			menu.setListener(this);
 			menu.show(v);
@@ -60,9 +62,17 @@ public class Activity extends Role.Activity implements PopupMenu.Listener, View.
 	}
 
 	@Override
-	protected void onFound(String address, String name, List<UUID> uuids) {
-		if (menu != null)
-			menu.addItem(address, name == null ? address : name);
+	public void onFound(final String address, final String name, List<UUID> uuids) {
+		if (menu != null) {
+			final String a = address;
+			final String n = name;
+			runOnUiThread(new Runnable() {
+				@Override
+				public void run() {
+					menu.addItem(a, n == null ? a : n);
+				}
+			});
+		}
 	}
 
 	@Override
