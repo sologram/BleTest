@@ -25,8 +25,14 @@ public class Activity extends Role.Activity implements PopupMenu.Listener, View.
 
 	@Override
 	public void onClick(View v) {
-		menu.addItem(null, "Scan ...");
-		menu.show(v);
+		try {
+			scanner = new Scanner(this).start();
+			menu = new PopupMenu(this, "Scan ...");
+			menu.setListener(this);
+			menu.show(v);
+		} catch (NotReady notReady) {
+			notReady.printStackTrace();
+		}
 	}
 
 	@Override
@@ -35,17 +41,10 @@ public class Activity extends Role.Activity implements PopupMenu.Listener, View.
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		try {
-			super.onCreate(savedInstanceState);
-			setContentView(R.layout.main);
-			menu = new PopupMenu(this);
-			menu.setListener(this);
-			hello = findViewById(R.id.hello);
-			hello.setOnClickListener(this);
-			scanner = new Scanner(this).start();
-		} catch (NotReady notReady) {
-			notReady.printStackTrace();
-		}
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.main);
+		hello = findViewById(R.id.hello);
+		hello.setOnClickListener(this);
 	}
 
 	@Override
@@ -54,13 +53,16 @@ public class Activity extends Role.Activity implements PopupMenu.Listener, View.
 
 	@Override
 	public void onDismiss() {
+		scanner.stop();
+		scanner = null;
+		menu = null;
 	}
 
 	@Override
 	protected void onFound(String address, String name, List<UUID> uuids) {
 		//Log.w(TAG, "onFound: " + address + ", " + name);
-		menu.removeItem(null);
-		menu.addItem(address, name == null ? address : name);
+		if (menu != null)
+			menu.addItem(address, name == null ? address : name);
 	}
 
 	@Override

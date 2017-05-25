@@ -1,7 +1,14 @@
 package com.sologram.common;
 
 import android.content.Context;
+import android.graphics.Canvas;
+import android.graphics.Paint;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.LayerDrawable;
+import android.graphics.drawable.ShapeDrawable;
+import android.graphics.drawable.shapes.RoundRectShape;
+import android.graphics.drawable.shapes.Shape;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,8 +17,6 @@ import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
-
-import com.sologram.bletest.R;
 
 import static android.view.View.TEXT_ALIGNMENT_TEXT_START;
 
@@ -23,11 +28,27 @@ public class PopupMenu extends PopupWindow implements AdapterView.OnItemClickLis
 	private Listener listener;
 	private ListView layout;
 
-	public PopupMenu(Context context) {
+	public PopupMenu(Context context, String initText) {
+		float[] r = new float[]{2, 2, 2, 2, 2, 2, 2, 2};
+		ShapeDrawable bg = new ShapeDrawable();
+		bg.setPadding(0, 0, 0, 0);
+		bg.setShape(new RoundRectShape(r, null, null));
+		bg.getPaint().setStyle(Paint.Style.FILL);
+		bg.getPaint().setColor(0xFFBBBBBB);
+		ShapeDrawable fg = new ShapeDrawable();
+		fg.setPadding(0, 8, 0, 8);
+		fg.setShape(new RoundRectShape(r, null, null));
+		fg.getPaint().setStyle(Paint.Style.FILL);
+		fg.getPaint().setColor(0xFFFFFFFF);
+		Drawable[] layers = {bg, fg};
+		LayerDrawable da = new LayerDrawable(layers);
+		da.setLayerInset(1, 0, 0, 1, 1);
+
 		layout = new ListView(context);
-		layout.setBackground(context.getResources().getDrawable(R.drawable.values));
+		layout.setBackground(da);
 		layout.setAdapter(adapter);
 		layout.setOnItemClickListener(this);
+		adapter.addItem(null, initText);
 
 		setContentView(layout);
 		setWidth(240);
@@ -41,6 +62,7 @@ public class PopupMenu extends PopupWindow implements AdapterView.OnItemClickLis
 	}
 
 	public void addItem(Object key, String text) {
+		adapter.removeItem(null);
 		adapter.addItem(key, text);
 	}
 
@@ -55,10 +77,6 @@ public class PopupMenu extends PopupWindow implements AdapterView.OnItemClickLis
 		listener.onItemClick(adapter.getKey(position), adapter.getText(position));
 		listener.onDismiss();
 		dismiss();
-	}
-
-	public void removeItem(Object key) {
-		adapter.removeItem(key);
 	}
 
 	public void setListener(Listener listener) {
