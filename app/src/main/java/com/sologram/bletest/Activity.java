@@ -1,7 +1,6 @@
 package com.sologram.bletest;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 
 import com.sologram.bluetooth.NotReady;
@@ -60,7 +59,6 @@ public class Activity extends Role.Activity implements PopupMenu.Listener, View.
 
 	@Override
 	protected void onFound(String address, String name, List<UUID> uuids) {
-		//Log.w(TAG, "onFound: " + address + ", " + name);
 		if (menu != null)
 			menu.addItem(address, name == null ? address : name);
 	}
