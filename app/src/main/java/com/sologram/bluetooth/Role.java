@@ -1,10 +1,5 @@
 package com.sologram.bluetooth;
 
-/**
- * Created by hans on 2016/2/2.
- */
-
-import java.util.List;
 import java.util.UUID;
 
 public interface Role {
@@ -24,13 +19,14 @@ public interface Role {
 
 	void close();
 
-	static abstract class Activity extends android.app.Activity {
-		protected abstract void onBits(byte[] bits);
+	static abstract class Activity extends android.app.Activity implements Listener {
+	}
 
-		protected abstract void onConnected(String address);
+	interface Listener {
+		void onBits(byte[] bits);
 
-		protected abstract void onDisconnected(String address);
+		void onConnected(String address);
 
-		protected abstract void onFound(String address, String name, List<UUID> uuids);
+		void onDisconnected(String address);
 	}
 }

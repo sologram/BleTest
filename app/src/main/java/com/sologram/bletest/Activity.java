@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
+import com.sologram.bluetooth.Master;
+import com.sologram.bluetooth.NoAddress;
 import com.sologram.bluetooth.NotReady;
 import com.sologram.bluetooth.Role;
 import com.sologram.bluetooth.Scanner;
@@ -16,9 +18,30 @@ public class Activity extends Role.Activity implements PopupMenu.Listener, View.
 		Scanner.Listener {
 	static private final String TAG = Activity.class.getSimpleName();
 
-	PopupMenu menu;
-	Scanner scanner;
-	View hello;
+	private PopupMenu menu;
+	private Role master;
+	private Scanner scanner;
+	private String macadd;
+	private View addr;
+
+	protected void connect(String address) {
+		Log.w(TAG, "connect: " + address);
+		try {
+			if (master != null)
+				master.close();
+			master = new Master(this, address);
+		} catch (NotReady notReady) {
+			notReady.printStackTrace();
+		} catch (NoAddress noAddress) {
+			noAddress.printStackTrace();
+		}
+	}
+
+	protected void disconnect() {
+		Log.w(TAG, "disconnect");
+		if (master != null)
+			master.close();
+	}
 
 	@Override
 	protected void onBits(byte[] bits) {
@@ -27,8 +50,8 @@ public class Activity extends Role.Activity implements PopupMenu.Listener, View.
 	@Override
 	public void onClick(View v) {
 		try {
-			scanner = new Scanner(this).start(null);
-			scanner.setListener(this);
+			disconnect();
+			scanner = new Scanner(this).start(null, this);
 			menu = new PopupMenu(this, "Scan ...");
 			menu.setListener(this);
 			menu.show(v);
@@ -45,8 +68,8 @@ public class Activity extends Role.Activity implements PopupMenu.Listener, View.
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
-		hello = findViewById(R.id.hello);
-		hello.setOnClickListener(this);
+		addr = findViewById(R.id.addr);
+		addr.setOnClickListener(this);
 	}
 
 	@Override
@@ -56,11 +79,17 @@ public class Activity extends Role.Activity implements PopupMenu.Listener, View.
 	@Override
 	public void onDismiss() {
 		Log.w(TAG, "onDismiss");
-		if (scanner != null) {
-			scanner.stop();
-			scanner = null;
-		}
 		menu = null;
+		runOnUiThread(new Runnable() {
+			@Override
+			public void run() {
+				if (scanner != null) {
+					scanner.stop();
+					scanner = null;
+				}
+				connect(macadd);
+			}
+		});
 	}
 
 	@Override
@@ -71,7 +100,8 @@ public class Activity extends Role.Activity implements PopupMenu.Listener, View.
 			runOnUiThread(new Runnable() {
 				@Override
 				public void run() {
-					menu.addItem(a, n == null ? a : n);
+					if (menu != null)
+						menu.addItem(a, n == null ? a : n);
 				}
 			});
 		}
@@ -79,5 +109,19 @@ public class Activity extends Role.Activity implements PopupMenu.Listener, View.
 
 	@Override
 	public void onItemClick(Object key, String text) {
+		macadd = (String) key;
+	}
+
+	@Override
+	protected void onPause() {
+		super.onPause();
+		if (master != null) {
+			master.close();
+			master = null;
+		}
+		if (scanner != null) {
+			scanner.stop();
+			scanner = null;
+		}
 	}
 }
