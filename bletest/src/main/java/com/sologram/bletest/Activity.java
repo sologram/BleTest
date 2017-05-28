@@ -3,6 +3,7 @@ package com.sologram.bletest;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
 
 import com.sologram.bluetooth.NotReady;
 import com.sologram.bluetooth.Scanner;
@@ -18,7 +19,7 @@ public class Activity extends com.sologram.protocol.Activity
 	private PopupMenu menu;
 	private Scanner scanner;
 	private String macadd;
-	private View addr;
+	private TextView addr;
 
 	@Override
 	public void onBits(byte[] bits) {
@@ -38,11 +39,32 @@ public class Activity extends com.sologram.protocol.Activity
 	}
 
 	@Override
+	public void onConnected(final String address) {
+		final String a = address;
+		runOnUiThread(new Runnable() {
+			@Override
+			public void run() {
+				addr.setText(a);
+			}
+		});
+	}
+
+	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
-		addr = findViewById(R.id.addr);
+		addr = (TextView) findViewById(R.id.addr);
 		addr.setOnClickListener(this);
+	}
+
+	@Override
+	public void onDisconnected(String address) {
+		runOnUiThread(new Runnable() {
+			@Override
+			public void run() {
+				addr.setText("Disconnected");
+			}
+		});
 	}
 
 	@Override

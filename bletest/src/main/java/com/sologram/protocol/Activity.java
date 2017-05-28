@@ -6,7 +6,7 @@ import com.sologram.bluetooth.NoAddress;
 import com.sologram.bluetooth.NotReady;
 import com.sologram.bluetooth.Role;
 
-public class Activity extends android.app.Activity implements Role.Listener {
+public abstract class Activity extends android.app.Activity implements Role.Listener {
 	static private final String TAG = Activity.class.getSimpleName();
 
 	private Role master;
@@ -35,16 +35,6 @@ public class Activity extends android.app.Activity implements Role.Listener {
 
 	@Override
 	public void onBits(byte[] bits) {
-	}
-
-	@Override
-	public void onConnected(String address) {
-		Log.w(TAG, "onConnected: " + address);
-	}
-
-	@Override
-	public void onDisconnected(String address) {
-		Log.w(TAG, "onDisconnected: " + address);
 	}
 
 	@Override
