@@ -68,7 +68,7 @@ public class Scanner implements BluetoothAdapter.LeScanCallback {
 	}
 
 	public Scanner start(UUID[] services, Listener listener) {
-		Log.w(TAG, "start: " + services);
+		Log.w(TAG, "start");
 		this.listener = listener;
 		adapter.startLeScan(services, this);
 		return this;

@@ -9,30 +9,34 @@ import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCallback;
 import android.bluetooth.BluetoothProfile;
+import android.content.Context;
 import android.util.Log;
 
 public class Central extends BluetoothGattCallback implements Role {
 	static private final String TAG = Central.class.getSimpleName();
 
-	private BluetoothDevice dev;
+	private BluetoothDevice device;
 	protected BluetoothGatt gatt;
-	protected Activity handler;
+	protected Context context;
+	protected Role.Listener listener;
 
-	public Central(Activity activity, String address) throws NoAddress, NotReady {
+	public Central(Context context, String address, Role.Listener listener)
+			throws NoAddress, NotReady {
 		if (address == null)
 			throw new NoAddress();
-		handler = activity;
-		BluetoothAdapter a = Adapter.get(activity);
+		BluetoothAdapter a = Adapter.get(context);
 		if (a == null || !a.isEnabled())
 			throw new NotReady();
-		dev = a.getRemoteDevice(address);
-		gatt = dev.connectGatt(activity, false, this);
+		this.context = context;
+		this.listener = listener;
+		this.device = a.getRemoteDevice(address);
+		this.gatt = device.connectGatt(context, false, this);
 	}
 
 	@Override
 	public void close() {
 		gatt.close();
-		dev = null;
+		device = null;
 	}
 
 	@Override
@@ -42,13 +46,13 @@ public class Central extends BluetoothGattCallback implements Role {
 		switch (newState) {
 			case BluetoothProfile.STATE_CONNECTED:
 				gatt.discoverServices();
-				handler.onConnected(gatt.getDevice().getAddress());
+				listener.onConnected(gatt.getDevice().getAddress());
 				break;
 			case BluetoothProfile.STATE_DISCONNECTED:
 				this.gatt.close();
-				if (dev != null) {
-					handler.onDisconnected(gatt.getDevice().getAddress());
-					this.gatt = dev.connectGatt(handler, false, this);
+				if (device != null) {
+					listener.onDisconnected(gatt.getDevice().getAddress());
+					this.gatt = device.connectGatt(context, false, this);
 				}
 		}
 	}

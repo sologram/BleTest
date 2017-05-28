@@ -60,6 +60,7 @@ public class PopupMenu extends PopupWindow implements AdapterView.OnItemClickLis
 	}
 
 	public void addItem(Object key, String text) {
+		Log.w(TAG, "addItem: " + key + ", " + text);
 		adapter.removeItem(null);
 		adapter.addItem(key, text);
 	}
@@ -86,6 +87,7 @@ public class PopupMenu extends PopupWindow implements AdapterView.OnItemClickLis
 	}
 
 	class Adapter extends BaseAdapter {
+		private final String TAG = Adapter.class.getSimpleName();
 		private MapList list = new MapList();
 
 		void addItem(Object key, String text) {

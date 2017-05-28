@@ -52,7 +52,7 @@ public class Scanner21 extends ScanCallback implements Role {
     public void onScanResult(int callbackType, ScanResult result) {
         super.onScanResult(callbackType, result);
         BluetoothDevice d = result.getDevice();
-        hnd.onFound(d.getAddress(), d.getName(), parseUuids(result.getScanRecord().getBytes()));
+        //hnd.onFound(d.getAddress(), d.getName(), parseUuids(result.getScanRecord().getBytes()));
         Log.w(TAG, "onScanResult: " + result.getDevice().getAddress());
     }
 

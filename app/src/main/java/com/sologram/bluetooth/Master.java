@@ -9,6 +9,7 @@ import android.bluetooth.BluetoothGattCharacteristic;
 import android.bluetooth.BluetoothGattDescriptor;
 import android.bluetooth.BluetoothGattService;
 import android.bluetooth.BluetoothProfile;
+import android.content.Context;
 import android.util.Log;
 
 import java.util.UUID;
@@ -18,14 +19,15 @@ public class Master extends Central {
 
 	private BluetoothGattCharacteristic crx, ctx;
 
-	public Master(Activity handler, String address) throws NotReady, NoAddress {
-		super(handler, address);
-		Log.w(TAG, "open");
+	public Master(Context context, String address, Role.Listener listener)
+			throws NotReady, NoAddress {
+		super(context, address, listener);
+		//Log.w(TAG, "open");
 	}
 
 	@Override
 	public void close() {
-		Log.w(TAG, "close");
+		//Log.w(TAG, "close");
 		super.close();
 		crx = null;
 		ctx = null;
@@ -33,10 +35,10 @@ public class Master extends Central {
 
 	@Override
 	public void onCharacteristicChanged(BluetoothGatt gatt,
-	                                    BluetoothGattCharacteristic characteristic) {
+										BluetoothGattCharacteristic characteristic) {
 		Log.v(TAG, "onCharacteristicChanged: " + characteristic);
 		super.onCharacteristicChanged(gatt, characteristic);
-		handler.onBits(crx.getValue());
+		listener.onBits(crx.getValue());
 	}
 
 	@Override
