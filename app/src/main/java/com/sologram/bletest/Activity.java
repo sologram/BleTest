@@ -27,7 +27,7 @@ public class Activity extends com.sologram.protocol.Activity
 	@Override
 	public void onClick(View v) {
 		try {
-//			disconnect();
+			disconnect();
 			menu = new PopupMenu(this, "Scan ...");
 			menu.setListener(this);
 			menu.show(v);
@@ -38,19 +38,11 @@ public class Activity extends com.sologram.protocol.Activity
 	}
 
 	@Override
-	public void onConnected(String address) {
-	}
-
-	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
 		addr = findViewById(R.id.addr);
 		addr.setOnClickListener(this);
-	}
-
-	@Override
-	public void onDisconnected(String address) {
 	}
 
 	@Override
@@ -64,14 +56,14 @@ public class Activity extends com.sologram.protocol.Activity
 					scanner.stop();
 					scanner = null;
 				}
-//				connect(macadd);
+				connect(macadd);
 			}
 		});
 	}
 
 	@Override
 	public void onFound(final String address, final String name, List<UUID> uuids) {
-		Log.w(TAG, "onFound: " + address);
+		//Log.w(TAG, "onFound: " + address);
 		if (menu != null) {
 			final String a = address;
 			final String n = name;

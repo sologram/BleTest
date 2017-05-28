@@ -1,9 +1,5 @@
 package com.sologram.bluetooth;
 
-/**
- * Created by hans on 2016/1/19.
- */
-
 import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCharacteristic;
 import android.bluetooth.BluetoothGattDescriptor;
@@ -22,12 +18,10 @@ public class Master extends Central {
 	public Master(Context context, String address, Role.Listener listener)
 			throws NotReady, NoAddress {
 		super(context, address, listener);
-		//Log.w(TAG, "open");
 	}
 
 	@Override
 	public void close() {
-		//Log.w(TAG, "close");
 		super.close();
 		crx = null;
 		ctx = null;

@@ -15,9 +15,12 @@ public class Activity extends android.app.Activity implements Role.Listener {
 	protected void connect(String address) {
 		Log.w(TAG, "connect: " + address);
 		try {
-			if (master != null)
+			if (master != null) {
 				master.close();
-			master = new Master(this, address, this);
+				master = null;
+			}
+			if (address != null)
+				master = new Master(this, address, this);
 		} catch (NotReady notReady) {
 			notReady.printStackTrace();
 		} catch (NoAddress noAddress) {
@@ -37,10 +40,12 @@ public class Activity extends android.app.Activity implements Role.Listener {
 
 	@Override
 	public void onConnected(String address) {
+		Log.w(TAG, "onConnected: " + address);
 	}
 
 	@Override
 	public void onDisconnected(String address) {
+		Log.w(TAG, "onDisconnected: " + address);
 	}
 
 	@Override

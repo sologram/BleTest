@@ -1,9 +1,5 @@
 package com.sologram.bluetooth;
 
-/**
- * Created by hans on 2016/1/19.
- */
-
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothGatt;
@@ -16,8 +12,8 @@ public class Central extends BluetoothGattCallback implements Role {
 	static private final String TAG = Central.class.getSimpleName();
 
 	private BluetoothDevice device;
+	private Context context;
 	protected BluetoothGatt gatt;
-	protected Context context;
 	protected Role.Listener listener;
 
 	public Central(Context context, String address, Role.Listener listener)
@@ -35,8 +31,14 @@ public class Central extends BluetoothGattCallback implements Role {
 
 	@Override
 	public void close() {
-		gatt.close();
-		device = null;
+		if (listener != null) {
+			listener.onDisconnected(gatt.getDevice().getAddress());
+			listener = null;
+		}
+		if (gatt != null)
+			gatt.close();
+		if (device != null)
+			device = null;
 	}
 
 	@Override
@@ -45,15 +47,15 @@ public class Central extends BluetoothGattCallback implements Role {
 		super.onConnectionStateChange(gatt, status, newState);
 		switch (newState) {
 			case BluetoothProfile.STATE_CONNECTED:
+				if (listener != null)
+					listener.onConnected(gatt.getDevice().getAddress());
 				gatt.discoverServices();
-				listener.onConnected(gatt.getDevice().getAddress());
 				break;
 			case BluetoothProfile.STATE_DISCONNECTED:
-				this.gatt.close();
-				if (device != null) {
+				if (listener != null)
 					listener.onDisconnected(gatt.getDevice().getAddress());
-					this.gatt = device.connectGatt(context, false, this);
-				}
+				gatt.close();
+				this.gatt = device.connectGatt(context, false, this);
 		}
 	}
 }

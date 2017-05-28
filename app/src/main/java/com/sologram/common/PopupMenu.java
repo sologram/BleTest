@@ -60,7 +60,7 @@ public class PopupMenu extends PopupWindow implements AdapterView.OnItemClickLis
 	}
 
 	public void addItem(Object key, String text) {
-		Log.w(TAG, "addItem: " + key + ", " + text);
+		//Log.w(TAG, "addItem: " + key + ", " + text);
 		adapter.removeItem(null);
 		adapter.addItem(key, text);
 	}
@@ -92,7 +92,7 @@ public class PopupMenu extends PopupWindow implements AdapterView.OnItemClickLis
 
 		void addItem(Object key, String text) {
 			if (list.add(key, text)) {
-				Log.w(TAG, "addItem: " + key + ", " + text);
+				//Log.w(TAG, "addItem: " + key + ", " + text);
 				notifyDataSetChanged();
 			}
 		}
