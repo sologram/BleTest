@@ -1,7 +1,8 @@
-package com.sologram.bluetooth;
+package com.sologram.protocol;
 
-public interface Role {
-	/*
+import java.util.UUID;
+
+public class Protocol {
 	static public final UUID UID_APPL = UUID.fromString("00000001-0000-1000-8000-00805F9B34FB");
 	static public final UUID UID_STTD = UUID.fromString("00000002-0000-1000-8000-00805F9B34FB");
 	static public final UUID UID_STTP = UUID.fromString("00000003-0000-1000-8000-00805F9B34FB");
@@ -15,15 +16,4 @@ public interface Role {
 
 	static public final UUID UID_MISO = UUID.fromString("00000008-0000-1000-8000-00805F9B34FB");
 	static public final UUID UID_MOSI = UUID.fromString("00000009-0000-1000-8000-00805F9B34FB");
-	//*/
-
-	void close();
-
-	interface Listener {
-		void onBits(byte[] bits);
-
-		void onConnected(String address);
-
-		void onDisconnected(String address);
-	}
 }

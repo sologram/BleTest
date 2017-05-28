@@ -26,10 +26,10 @@ public class Scanner21 extends ScanCallback implements Role {
     static private final String TAG = Scanner21.class.getSimpleName();
 
     private BluetoothAdapter adp;
-    private Activity hnd;
+    private Context hnd;
     BluetoothLeScanner bluetoothLeScanner;
 
-    public Scanner21(Activity handler) throws NotReady {
+    public Scanner21(Context handler) throws NotReady {
         hnd = handler;
         adp = ((BluetoothManager) handler.getSystemService(Context.BLUETOOTH_SERVICE)).
                 getAdapter();

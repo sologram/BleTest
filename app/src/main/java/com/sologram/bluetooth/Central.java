@@ -35,8 +35,10 @@ public class Central extends BluetoothGattCallback implements Role {
 			listener.onDisconnected(gatt.getDevice().getAddress());
 			listener = null;
 		}
-		if (gatt != null)
+		if (gatt != null) {
 			gatt.close();
+			gatt = null;
+		}
 		if (device != null)
 			device = null;
 	}

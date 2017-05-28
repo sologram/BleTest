@@ -1,9 +1,5 @@
 package com.sologram.bluetooth;
 
-/**
- * Created by hans on 2016/2/2.
- */
-
 import android.annotation.TargetApi;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.le.AdvertiseCallback;

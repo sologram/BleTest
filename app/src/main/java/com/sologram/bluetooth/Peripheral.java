@@ -19,10 +19,10 @@ public class Peripheral extends BluetoothGattServerCallback implements Role {
 	static private final String TAG = Peripheral.class.getSimpleName();
 
 	protected BluetoothDevice device;
-	protected Activity handler;
+	protected Context handler;
 	protected BluetoothGattServer server;
 
-	public Peripheral(Activity activity) throws NotReady {
+	public Peripheral(Context activity) throws NotReady {
 		handler = activity;
 		BluetoothManager m = (BluetoothManager) activity.getSystemService(
 				Context.BLUETOOTH_SERVICE);
@@ -61,11 +61,11 @@ public class Peripheral extends BluetoothGattServerCallback implements Role {
 			case BluetoothProfile.STATE_CONNECTED:
 				Log.i(TAG, "STATE_CONNECTED: " + server);
 				this.device = device;
-				handler.onConnected(null);
+				//handler.onConnected(null);
 				break;
 			case BluetoothProfile.STATE_DISCONNECTED:
 				Log.i(TAG, "STATE_DISCONNECTED: " + server);
-				handler.onDisconnected(null);
+				//handler.onDisconnected(null);
 				this.device = null;
 		}
 	}

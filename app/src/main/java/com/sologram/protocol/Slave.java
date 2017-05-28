@@ -1,31 +1,31 @@
-package com.sologram.bluetooth;
-
-/**
- * Created by hans on 2016/1/19.
- */
+package com.sologram.protocol;
 
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCharacteristic;
 import android.bluetooth.BluetoothGattService;
+import android.content.Context;
+
+import com.sologram.bluetooth.NotReady;
+import com.sologram.bluetooth.Peripheral;
 
 public class Slave extends Peripheral {
 	private final static String TAG = Slave.class.getSimpleName();
 
 	private BluetoothGattCharacteristic chi, cho;
 
-	public Slave(Activity handler) throws NotReady {
+	public Slave(Context handler) throws NotReady {
 		super(handler);
-		BluetoothGattService s = new BluetoothGattService(Role.UID_TNNL,
+		BluetoothGattService s = new BluetoothGattService(Protocol.UID_TNNL,
 				BluetoothGattService.SERVICE_TYPE_PRIMARY);
-		chi = new BluetoothGattCharacteristic(Role.UID_MISO,
+		chi = new BluetoothGattCharacteristic(Protocol.UID_MISO,
 				BluetoothGattCharacteristic.PROPERTY_READ |
 						BluetoothGattCharacteristic.PROPERTY_BROADCAST |
 						BluetoothGattCharacteristic.PROPERTY_WRITE_NO_RESPONSE,
 				BluetoothGattCharacteristic.PERMISSION_READ |
 						BluetoothGattCharacteristic.PERMISSION_WRITE);
 		s.addCharacteristic(chi);
-		cho = new BluetoothGattCharacteristic(Role.UID_MOSI,
+		cho = new BluetoothGattCharacteristic(Protocol.UID_MOSI,
 				BluetoothGattCharacteristic.PROPERTY_BROADCAST |
 						BluetoothGattCharacteristic.PROPERTY_WRITE_NO_RESPONSE,
 				BluetoothGattCharacteristic.PERMISSION_WRITE);
@@ -42,7 +42,7 @@ public class Slave extends Peripheral {
 		characteristic.setValue(value);
 		if (responseNeeded)
 			server.sendResponse(device, requestId, BluetoothGatt.GATT_SUCCESS, offset, null);
-		handler.onBits(cho.getValue());
+		//handler.onBits(cho.getValue());
 	}
 
 	public void put(byte[] bits) {

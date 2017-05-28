@@ -1,30 +1,29 @@
 package com.sologram.bluetooth;
 
-/**
- * Created by hans on 2016/1/19.
- */
-
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCharacteristic;
 import android.bluetooth.BluetoothGattService;
+import android.content.Context;
 import android.util.Log;
+
+import com.sologram.protocol.Protocol;
 
 public class Appls extends Peripheral {
 	private final static String TAG = Appls.class.getSimpleName();
 
 	private BluetoothGattCharacteristic chd, chp;
 
-	public Appls(Activity handler, String address) throws NotReady {
+	public Appls(Context handler, String address) throws NotReady {
 		super(handler);
-		BluetoothGattService s = new BluetoothGattService(Role.UID_APPL,
+		BluetoothGattService s = new BluetoothGattService(Protocol.UID_APPL,
 				BluetoothGattService.SERVICE_TYPE_PRIMARY);
-		chd = new BluetoothGattCharacteristic(Role.UID_STTD,
+		chd = new BluetoothGattCharacteristic(Protocol.UID_STTD,
 				BluetoothGattCharacteristic.PROPERTY_BROADCAST |
 						BluetoothGattCharacteristic.PROPERTY_WRITE_NO_RESPONSE,
 				BluetoothGattCharacteristic.PERMISSION_WRITE);
 		s.addCharacteristic(chd);
-		chp = new BluetoothGattCharacteristic(Role.UID_STTP,
+		chp = new BluetoothGattCharacteristic(Protocol.UID_STTP,
 				BluetoothGattCharacteristic.PROPERTY_READ |
 						BluetoothGattCharacteristic.PROPERTY_BROADCAST |
 						BluetoothGattCharacteristic.PROPERTY_WRITE_NO_RESPONSE,

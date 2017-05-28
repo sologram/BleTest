@@ -2,7 +2,6 @@ package com.sologram.protocol;
 
 import android.util.Log;
 
-import com.sologram.bluetooth.Master;
 import com.sologram.bluetooth.NoAddress;
 import com.sologram.bluetooth.NotReady;
 import com.sologram.bluetooth.Role;
