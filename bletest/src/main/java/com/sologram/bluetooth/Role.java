@@ -20,7 +20,7 @@ public interface Role {
 	void close();
 
 	interface Listener {
-		void onBits(byte[] bits);
+		//void onBits(byte[] bits);
 
 		void onConnected(String address);
 

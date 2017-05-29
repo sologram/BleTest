@@ -6,13 +6,13 @@ import com.sologram.bluetooth.NoAddress;
 import com.sologram.bluetooth.NotReady;
 import com.sologram.bluetooth.Role;
 
-public abstract class Activity extends android.app.Activity implements Role.Listener {
+public abstract class Activity extends android.app.Activity implements Master.Listener {
 	static private final String TAG = Activity.class.getSimpleName();
 
 	private Role master;
 
 	protected void connect(String address) {
-		Log.w(TAG, "connect: " + address);
+		Log.v(TAG, "connect: " + address);
 		try {
 			if (master != null) {
 				master.close();
@@ -28,13 +28,9 @@ public abstract class Activity extends android.app.Activity implements Role.List
 	}
 
 	protected void disconnect() {
-		Log.w(TAG, "disconnect");
+		Log.v(TAG, "disconnect");
 		if (master != null)
 			master.close();
-	}
-
-	@Override
-	public void onBits(byte[] bits) {
 	}
 
 	@Override

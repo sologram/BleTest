@@ -17,7 +17,7 @@ public class Master extends Central {
 
 	private BluetoothGattCharacteristic tx;
 
-	public Master(Context context, String address, Role.Listener listener)
+	public Master(Context context, String address, Listener listener)
 			throws NotReady, NoAddress {
 		super(context, address, listener);
 	}
@@ -27,7 +27,7 @@ public class Master extends Central {
 										BluetoothGattCharacteristic characteristic) {
 		Log.v(TAG, "onCharacteristicChanged: " + characteristic);
 		super.onCharacteristicChanged(gatt, characteristic);
-		listener.onBits(characteristic.getValue());
+		((Listener) listener).onBits(characteristic.getValue());
 	}
 
 	@Override
@@ -55,7 +55,7 @@ public class Master extends Central {
 		}
 	}
 
-	interface Listener {
+	interface Listener extends Role.Listener {
 		void onBits(byte[] bits);
 	}
 }
