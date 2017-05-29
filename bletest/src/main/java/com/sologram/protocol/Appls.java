@@ -1,4 +1,4 @@
-package com.sologram.bluetooth;
+package com.sologram.protocol;
 
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothGatt;
@@ -7,7 +7,8 @@ import android.bluetooth.BluetoothGattService;
 import android.content.Context;
 import android.util.Log;
 
-import com.sologram.protocol.Protocol;
+import com.sologram.bluetooth.NotReady;
+import com.sologram.bluetooth.Peripheral;
 
 public class Appls extends Peripheral {
 	private final static String TAG = Appls.class.getSimpleName();
