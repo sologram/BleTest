@@ -1,9 +1,5 @@
 package com.sologram.bluetooth;
 
-/**
- * Created by hans on 2016/2/2.
- */
-
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothGatt;

@@ -1,8 +1,4 @@
-package com.sologram.bluetooth;
-
-/**
- * Created by hans on 2016/1/19.
- */
+package com.sologram.protocol;
 
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothGatt;
@@ -10,7 +6,8 @@ import android.bluetooth.BluetoothGattCharacteristic;
 import android.bluetooth.BluetoothGattService;
 import android.content.Context;
 
-import com.sologram.protocol.Protocol;
+import com.sologram.bluetooth.NotReady;
+import com.sologram.bluetooth.Peripheral;
 
 public class Remote extends Peripheral {
 	private final static String TAG = Remote.class.getSimpleName();

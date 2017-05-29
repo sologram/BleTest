@@ -20,10 +20,8 @@ public abstract class Activity extends android.app.Activity implements Master.Li
 			}
 			if (address != null)
 				master = new Master(this, address, this);
-		} catch (NotReady notReady) {
-			notReady.printStackTrace();
-		} catch (NoAddress noAddress) {
-			noAddress.printStackTrace();
+		} catch (NotReady | NoAddress e) {
+			e.show(this);
 		}
 	}
 

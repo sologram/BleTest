@@ -1,9 +1,5 @@
 package com.sologram.bluetooth;
 
-/**
- * Created by hans on 29/04/2017.
- */
-
 import android.app.Activity;
 import android.widget.Toast;
 

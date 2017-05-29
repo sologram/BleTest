@@ -33,8 +33,8 @@ public class Activity extends com.sologram.protocol.Activity
 			menu.setListener(this);
 			menu.show(v);
 			scanner = new Scanner(this).start(null, this);
-		} catch (NotReady notReady) {
-			notReady.printStackTrace();
+		} catch (NotReady e) {
+			e.printStackTrace();
 		}
 	}
 
