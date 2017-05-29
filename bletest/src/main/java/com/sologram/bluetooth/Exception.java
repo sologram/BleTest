@@ -3,9 +3,9 @@ package com.sologram.bluetooth;
 import android.app.Activity;
 import android.widget.Toast;
 
-public class ExceptionEx extends java.lang.Exception {
+public class Exception extends java.lang.Exception {
 	public void show(Activity activity) {
-		show(activity, "ExceptionEx");
+		show(activity, "Exception");
 	}
 
 	public void show(Activity activity, String message) {
